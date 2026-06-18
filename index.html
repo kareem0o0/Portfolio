@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kareem Salah — Robotics & Mechatronics Engineer</title>
+<meta name="description" content="Kareem Salah — Robotics and Mechanical Engineer. Autonomous systems, ROS navigation, and rotating-machine design. Cairo, Egypt." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     Kareem Salah · dual-track portfolio (Robotics / Mechanical)
+     Clean engineering studio: warm-neutral paper, ink text,
+     a single slate-teal accent. The accent subtly shifts hue
+     per track so each focus feels distinct without a redesign.
+     ============================================================ */
+
+  :root {
+    --paper:    #f6f5f1;
+    --surface:  #ffffff;
+    --ink:      #1c2024;
+    --ink-soft: #565b61;
+    --ink-faint:#8b9097;
+    --line:     #e4e2db;
+    --line-2:   #d6d3ca;
+    /* robotics default accent (slate teal) */
+    --accent:   #2f6f6b;
+    --accent-d: #245754;
+    --accent-soft: #e8f0ef;
+    --radius:   14px;
+    --radius-s: 9px;
+    --shadow:   0 1px 2px rgba(28,32,36,.04), 0 8px 24px rgba(28,32,36,.06);
+    --shadow-h: 0 2px 4px rgba(28,32,36,.06), 0 16px 40px rgba(28,32,36,.10);
+    --maxw:     1080px;
+  }
+  /* mechanical track = warmer bronze accent */
+  body.track-mech {
+    --accent:   #9a5b2c;
+    --accent-d: #7e4920;
+    --accent-soft: #f3e9df;
+  }
+  body.dark {
+    --paper:    #14171a;
+    --surface:  #1c2024;
+    --ink:      #ecedee;
+    --ink-soft: #a9aeb4;
+    --ink-faint:#7b8086;
+    --line:     #2a2f34;
+    --line-2:   #353b41;
+    --accent:   #5fb3ac;
+    --accent-d: #7ec5bf;
+    --accent-soft: #1e2a29;
+    --shadow:   0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --shadow-h: 0 2px 4px rgba(0,0,0,.4), 0 18px 44px rgba(0,0,0,.5);
+  }
+  body.dark.track-mech {
+    --accent:   #d39156;
+    --accent-d: #e0a878;
+    --accent-soft: #2a211a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background .35s ease, color .35s ease;
+  }
+  ::selection { background: var(--accent); color: #fff; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .serif { font-family: 'Fraunces', Georgia, serif; }
+
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); display: inline-flex; align-items: center; gap: 10px; transition: color .35s; }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+
+  /* ---------------- nav ---------------- */
+  nav { position: fixed; inset: 0 0 auto 0; z-index: 900; display: flex; align-items: center; justify-content: space-between; padding: 14px 28px; background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: saturate(160%) blur(12px); -webkit-backdrop-filter: saturate(160%) blur(12px); border-bottom: 1px solid transparent; transition: border-color .3s ease; gap: 14px; }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-brand { display: flex; align-items: center; gap: 11px; font-weight: 600; font-size: .98rem; letter-spacing: -.01em; flex-shrink: 0; }
+  .nav-brand .badge { width: 30px; height: 30px; border-radius: 8px; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-family: 'IBM Plex Mono', monospace; font-size: .72rem; font-weight: 500; transition: background .35s; }
+  body.dark .nav-brand .badge { background: var(--accent); color: #0c1413; }
+  .nav-menu { display: flex; align-items: center; gap: 2px; }
+  .nav-menu a { font-size: .85rem; color: var(--ink-soft); padding: 8px 11px; border-radius: 8px; transition: color .2s, background .2s; }
+  .nav-menu a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .nav-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .icon-btn { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink-soft); cursor: pointer; display: grid; place-items: center; transition: border-color .2s, color .2s; }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .icon-btn svg, #themeIcon svg { width: 17px; height: 17px; }
+
+  /* track switch */
+  .track-switch { display: inline-flex; background: var(--surface); border: 1px solid var(--line-2); border-radius: 9px; padding: 3px; gap: 2px; }
+  .track-switch button { font-family: 'IBM Plex Mono', monospace; font-size: .72rem; letter-spacing: .04em; padding: 7px 13px; border: none; background: none; color: var(--ink-soft); border-radius: 6px; cursor: pointer; transition: background .25s, color .25s; white-space: nowrap; }
+  .track-switch button.active { background: var(--accent); color: #fff; }
+  body.dark .track-switch button.active { color: #0c1413; }
+
+  @media (max-width: 920px) { .nav-menu { display: none; } }
+
+  /* ---------------- hero ---------------- */
+  .hero { padding: 168px 0 92px; }
+  .hero-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 64px; align-items: center; }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(2.5rem, 5.6vw, 4.4rem); line-height: 1.05; letter-spacing: -.02em; margin: 22px 0 0; }
+  .hero h1 em { font-style: italic; color: var(--accent); transition: color .35s; }
+  .hero-sub { margin-top: 24px; font-size: 1.12rem; color: var(--ink-soft); max-width: 54ch; }
+  .hero-meta { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px 22px; font-family: 'IBM Plex Mono', monospace; font-size: .82rem; color: var(--ink-faint); }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 7px; }
+  .hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); transition: background .35s; }
+  .hero-actions { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { font-size: .9rem; font-weight: 500; padding: 12px 22px; border-radius: 10px; display: inline-flex; align-items: center; gap: 9px; cursor: pointer; border: 1px solid transparent; transition: transform .2s, box-shadow .2s, background .2s, border-color .2s; }
+  .btn.primary { background: var(--accent); color: #fff; box-shadow: var(--shadow); }
+  .btn.primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-h); background: var(--accent-d); }
+  .btn.outline { background: var(--surface); color: var(--ink); border-color: var(--line-2); }
+  .btn.outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow); }
+  .hero-portrait { aspect-ratio: 1/1; border-radius: var(--radius-s); background: radial-gradient(120% 120% at 30% 20%, var(--accent-soft), transparent 60%), var(--paper); border: 1px dashed var(--line-2); display: grid; place-items: center; position: relative; overflow: hidden; transition: background .35s; }
+  .hero-portrait .monogram { font-family: 'Fraunces', serif; font-size: 5rem; color: var(--accent); font-weight: 500; transition: color .35s; }
+  .hero-portrait .ph-label { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 22px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
+  .hero-stats .cell { background: var(--surface); padding: 15px 16px; }
+  .hero-stats .num { font-family: 'Fraunces', serif; font-size: 1.65rem; color: var(--ink); }
+  .hero-stats .lbl { font-size: .73rem; color: var(--ink-faint); margin-top: 2px; }
+  @media (max-width: 860px) { .hero { padding: 132px 0 60px; } .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* ---------------- sections ---------------- */
+  section.block { padding: 84px 0; border-top: 1px solid var(--line); }
+  .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 44px; flex-wrap: wrap; }
+  .sec-head h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(1.7rem, 3.6vw, 2.5rem); letter-spacing: -.015em; margin-top: 12px; }
+  .sec-head .note { font-size: .9rem; color: var(--ink-soft); max-width: 38ch; }
+
+  /* ---------------- about ---------------- */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; }
+  .about-lead { font-family: 'Fraunces', serif; font-size: clamp(1.3rem,2.4vw,1.7rem); line-height: 1.45; font-weight: 400; }
+  .about-lead em { font-style: italic; color: var(--accent); transition: color .35s; }
+  .about-text { color: var(--ink-soft); }
+  .about-text p + p { margin-top: 14px; }
+  .about-side .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow); }
+  .panel h4 { font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); font-family: 'IBM Plex Mono', monospace; margin-bottom: 14px; }
+  .panel .row { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-top: 1px solid var(--line); font-size: .92rem; }
+  .panel .row:first-of-type { border-top: none; }
+  .panel .row .k { color: var(--ink-soft); }
+  .panel .row .v { color: var(--ink); font-weight: 500; text-align: right; }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; gap: 36px; } }
+
+  /* ---------------- skills ---------------- */
+  .skill-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .skill-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: border-color .25s, transform .25s; }
+  .skill-card:hover { border-color: var(--line-2); transform: translateY(-3px); }
+  .skill-card .sc-ico { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: 16px; transition: background .35s, color .35s; }
+  .skill-card .sc-ico svg { width: 20px; height: 20px; }
+  .skill-card h3 { font-size: 1.05rem; margin-bottom: 12px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tags span { font-family: 'IBM Plex Mono', monospace; font-size: .74rem; color: var(--ink-soft); background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 5px 9px; }
+  @media (max-width: 860px) { .skill-groups { grid-template-columns: 1fr; } }
+
+  /* ---------------- experience ---------------- */
+  .tl-item { display: grid; grid-template-columns: 158px 1fr; gap: 28px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .tl-item:first-child { border-top: none; }
+  .tl-when { font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--ink-faint); padding-top: 3px; }
+  .tl-body h3 { font-size: 1.14rem; }
+  .tl-body .org { color: var(--accent); font-weight: 500; font-size: .95rem; margin-top: 2px; transition: color .35s; }
+  .tl-body ul { margin-top: 12px; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tl-body li { position: relative; padding-left: 18px; color: var(--ink-soft); font-size: .93rem; }
+  .tl-body li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); transition: background .35s; }
+  .tl-body li b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 680px) { .tl-item { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* ---------------- projects ---------------- */
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .project-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform .28s cubic-bezier(.2,.7,.3,1), box-shadow .28s, border-color .28s, opacity .4s; }
+  .project-card.reveal { opacity: 0; transform: translateY(20px); }
+  .project-card.reveal.in { opacity: 1; transform: none; }
+  .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-h); border-color: var(--line-2); }
+  .pc-media { aspect-ratio: 16/9; position: relative; border-bottom: 1px solid var(--line); background: radial-gradient(100% 120% at 75% 10%, var(--accent-soft), transparent 55%), var(--paper); display: grid; place-items: center; overflow: hidden; transition: background .35s; }
+  .pc-media .ico { color: var(--accent); opacity: .9; transition: color .35s; }
+  .pc-media .ico svg { width: 52px; height: 52px; }
+  .pc-media .ph { position: absolute; bottom: 10px; right: 12px; font-family: 'IBM Plex Mono', monospace; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+  .pc-cat { position: absolute; top: 12px; left: 12px; font-family: 'IBM Plex Mono', monospace; font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; background: color-mix(in srgb, var(--surface) 85%, transparent); border: 1px solid var(--line); color: var(--ink-soft); padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(4px); }
+  .pc-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .pc-body .pc-date { font-family: 'IBM Plex Mono', monospace; font-size: .72rem; color: var(--ink-faint); }
+  .pc-body h3 { font-size: 1.16rem; margin: 7px 0 9px; line-height: 1.25; }
+  .pc-body p { color: var(--ink-soft); font-size: .91rem; flex: 1; }
+  .pc-foot { margin-top: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .pc-stack { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pc-stack span { font-family: 'IBM Plex Mono', monospace; font-size: .68rem; color: var(--ink-soft); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; }
+  .pc-open { font-size: .8rem; color: var(--accent); font-weight: 500; display: inline-flex; align-items: center; gap: 5px; transition: gap .2s, color .35s; white-space: nowrap; }
+  .project-card:hover .pc-open { gap: 9px; }
+  @media (max-width: 760px) { .projects-grid { grid-template-columns: 1fr; } }
+
+  /* ---------------- achievements ---------------- */
+  .achv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .achv-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+  .achv-card .rank { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--accent); transition: color .35s; }
+  .achv-card .what { font-weight: 600; margin: 6px 0 4px; font-size: 1rem; }
+  .achv-card .where { color: var(--ink-soft); font-size: .86rem; }
+  @media (max-width: 760px) { .achv-grid { grid-template-columns: 1fr; } }
+
+  /* ---------------- certs ---------------- */
+  .cert-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .cert { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow); display: flex; gap: 16px; align-items: flex-start; }
+  .cert .c-ico { width: 36px; height: 36px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex-shrink: 0; transition: background .35s, color .35s; }
+  .cert .c-ico svg { width: 18px; height: 18px; }
+  .cert h3 { font-size: 1rem; line-height: 1.3; }
+  .cert p { color: var(--ink-soft); font-size: .88rem; margin-top: 6px; }
+  @media (max-width: 680px) { .cert-list { grid-template-columns: 1fr; } }
+
+  /* ---------------- contact ---------------- */
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .contact h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.06; letter-spacing: -.02em; }
+  .contact h2 em { font-style: italic; color: var(--accent); transition: color .35s; }
+  .contact .lead { margin-top: 16px; color: var(--ink-soft); max-width: 40ch; }
+  .contact-rows { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+  .contact-rows a { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-top: 1px solid var(--line); transition: background .2s, padding-left .2s; }
+  .contact-rows a:first-child { border-top: none; }
+  .contact-rows a:hover { background: var(--accent-soft); padding-left: 28px; }
+  .contact-rows .c-ico { width: 36px; height: 36px; border-radius: 9px; background: var(--paper); border: 1px solid var(--line); color: var(--accent); display: grid; place-items: center; flex-shrink: 0; transition: color .35s; }
+  .contact-rows .c-ico svg { width: 17px; height: 17px; }
+  .contact-rows .c-k { font-family: 'IBM Plex Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+  .contact-rows .c-v { font-size: .93rem; font-weight: 500; word-break: break-word; }
+  .contact-rows .arr { margin-left: auto; color: var(--ink-faint); transition: transform .2s, color .2s; }
+  .contact-rows a:hover .arr { transform: translate(3px,-3px); color: var(--accent); }
+  @media (max-width: 760px) { .contact { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* ---------------- footer ---------------- */
+  footer { border-top: 1px solid var(--line); padding: 30px 0; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  footer .f-name { font-family: 'Fraunces', serif; font-size: 1.05rem; }
+  footer .f-meta { font-family: 'IBM Plex Mono', monospace; font-size: .76rem; color: var(--ink-faint); }
+
+  /* ---------------- modal ---------------- */
+  .overlay { position: fixed; inset: 0; z-index: 1000; background: color-mix(in srgb, var(--ink) 45%, transparent); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+  .overlay.active { opacity: 1; visibility: visible; }
+  .modal { background: var(--surface); border: 1px solid var(--line); width: 100%; max-width: 720px; border-radius: var(--radius); box-shadow: var(--shadow-h); overflow: hidden; transform: translateY(16px) scale(.985); transition: transform .3s cubic-bezier(.2,.8,.3,1); margin: auto 0; }
+  .overlay.active .modal { transform: none; }
+  .m-media { aspect-ratio: 21/9; position: relative; border-bottom: 1px solid var(--line); background: radial-gradient(100% 130% at 80% 0%, var(--accent-soft), transparent 55%), var(--paper); display: grid; place-items: center; }
+  .m-media .ico { color: var(--accent); }
+  .m-media .ico svg { width: 62px; height: 62px; }
+  .m-media .ph { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); }
+  .m-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 9px; background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line); color: var(--ink); cursor: pointer; display: grid; place-items: center; backdrop-filter: blur(4px); transition: background .2s, color .2s; }
+  .m-close:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .m-close svg { width: 16px; height: 16px; }
+  .m-content { padding: 28px 32px 34px; }
+  .m-cat { font-family: 'IBM Plex Mono', monospace; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .m-content h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.8rem; line-height: 1.2; margin: 8px 0 12px; }
+  .m-metoline { display: flex; flex-wrap: wrap; gap: 8px 20px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--ink-faint); margin-bottom: 22px; }
+  .m-metoline span { display: inline-flex; align-items: center; gap: 7px; }
+  .m-metoline svg { width: 14px; height: 14px; color: var(--accent); }
+  .m-section { margin-top: 22px; }
+  .m-section h4 { font-family: 'IBM Plex Mono', monospace; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 11px; }
+  .m-section p { color: var(--ink-soft); font-size: .95rem; }
+  .m-section ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .m-section li { position: relative; padding-left: 18px; color: var(--ink-soft); font-size: .93rem; }
+  .m-section li::before { content: ""; position: absolute; left: 0; top: .6em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .m-section li b { color: var(--ink); }
+  .m-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .m-tags span { font-family: 'IBM Plex Mono', monospace; font-size: .76rem; color: var(--ink-soft); background: var(--paper); border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; }
+  .m-cs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .m-cs .box { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 16px 18px; }
+  .m-cs .box h5 { font-size: .82rem; color: var(--accent); margin-bottom: 7px; }
+  .m-cs .box p { font-size: .89rem; }
+  .m-ph-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .m-ph-grid .slot { aspect-ratio: 4/3; border: 1px dashed var(--line-2); border-radius: var(--radius-s); display: grid; place-items: center; color: var(--ink-faint); background: var(--paper); }
+  .m-ph-grid .slot svg { width: 22px; height: 22px; opacity: .6; }
+  .m-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .m-links a { font-size: .86rem; font-weight: 500; padding: 10px 16px; border-radius: 9px; border: 1px solid var(--line-2); display: inline-flex; align-items: center; gap: 8px; transition: border-color .2s, color .2s; }
+  .m-links a:hover { border-color: var(--accent); color: var(--accent); }
+  .m-links a.disabled { opacity: .5; }
+  .m-links a.disabled:hover { border-color: var(--line-2); color: var(--ink-soft); }
+  .m-links svg { width: 15px; height: 15px; }
+  @media (max-width: 560px) { .m-content { padding: 24px 22px 28px; } .m-cs { grid-template-columns: 1fr; } .m-ph-grid { grid-template-columns: repeat(2,1fr); } }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .project-card.reveal { opacity: 1; transform: none; } }
+</style>
+</head>
+<body class="track-robotics">
+
+<!-- ===================== NAV ===================== -->
+<nav id="nav">
+  <a href="#top" class="nav-brand"><span class="badge">KS</span>Kareem Salah</a>
+  <div class="nav-menu">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#achievements">Achievements</a>
+    <a href="#certs">Certs</a>
+  </div>
+  <div class="nav-right">
+    <div class="track-switch" role="tablist" aria-label="Focus track">
+      <button id="btnRobotics" class="active" onclick="setTrack('robotics')">Robotics</button>
+      <button id="btnMech" onclick="setTrack('mech')">Mechanical</button>
+    </div>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+      <span id="themeIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" id="heroEyebrow">Robotics Engineer · Cairo, Egypt</span>
+      <h1 id="heroTitle"></h1>
+      <p class="hero-sub" id="heroSub"></p>
+      <div class="hero-meta" id="heroMeta"></div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn primary">View projects
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#contact" class="btn outline">Get in touch</a>
+      </div>
+    </div>
+    <aside class="hero-card">
+      <div class="hero-portrait">
+        <span class="monogram serif">KS</span>
+        <span class="ph-label">Add your photo</span>
+      </div>
+      <div class="hero-stats" id="heroStats"></div>
+    </aside>
+  </div>
+</header>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">01 — About</span><h2>Engineer across software &amp; hardware</h2></div>
+      <p class="note" id="aboutNote"></p>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p class="about-lead" id="aboutLead"></p>
+        <div class="about-text" id="aboutText" style="margin-top:22px"></div>
+      </div>
+      <div class="about-side">
+        <div class="panel">
+          <h4>At a glance</h4>
+          <div class="row"><span class="k">Role</span><span class="v" id="glRole">Robotics Engineer</span></div>
+          <div class="row"><span class="k">Location</span><span class="v">Cairo, Egypt</span></div>
+          <div class="row"><span class="k">Degree</span><span class="v">B.Sc. Mechatronics</span></div>
+          <div class="row"><span class="k">University</span><span class="v">Assiut University</span></div>
+          <div class="row"><span class="k">Certification</span><span class="v">SOLIDWORKS CSWP</span></div>
+          <div class="row"><span class="k">Languages</span><span class="v">AR · EN · DE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section class="block" id="skills">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">02 — Capabilities</span><h2>Skills &amp; tools</h2></div>
+      <p class="note" id="skillsNote"></p>
+    </div>
+    <div class="skill-groups" id="skillGroups"></div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCE ===================== -->
+<section class="block" id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">03 — Experience</span><h2>Where I've worked</h2></div>
+      <p class="note" id="expNote"></p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">04 — Selected work</span><h2>Engineering projects</h2></div>
+      <p class="note">Click any project to open full details, stack, and documentation.</p>
+    </div>
+    <div class="projects-grid" id="projectsGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== ACHIEVEMENTS ===================== -->
+<section class="block" id="achievements">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">05 — Recognition</span><h2>Key achievements</h2></div>
+      <p class="note">International and national competition results.</p>
+    </div>
+    <div class="achv-grid">
+      <div class="achv-card"><div class="rank serif">1st · Int'l</div><div class="what">Autonomous Ocean Cleanup Robot</div><div class="where">ASME XRC International</div></div>
+      <div class="achv-card"><div class="rank serif">2nd · Int'l</div><div class="what">Autonomous Lunar Lander</div><div class="where">ASME XRC International</div></div>
+      <div class="achv-card"><div class="rank serif">1st · Egypt</div><div class="what">Puck Collector Robot</div><div class="where">Robotics Challenge Egypt</div></div>
+      <div class="achv-card"><div class="rank serif">2nd · Egypt</div><div class="what">Sumo Robot</div><div class="where">Robotics Challenge Egypt</div></div>
+      <div class="achv-card"><div class="rank serif">2nd · Egypt</div><div class="what">Autonomous Track</div><div class="where">EVER Egypt</div></div>
+      <div class="achv-card"><div class="rank serif">Award</div><div class="what">ASME Membership Growth — MEA</div><div class="where">As section chairman</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CERTS ===================== -->
+<section class="block" id="certs">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">06 — Credentials</span><h2>Training &amp; certificates</h2></div>
+      <p class="note">Formal certification and professional training.</p>
+    </div>
+    <div class="cert-list">
+      <div class="cert">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.9L7 22l5-3 5 3-1.2-8.1"/></svg></div>
+        <div><h3>SOLIDWORKS Champion — CSWA / CSWP</h3><p>Certified SOLIDWORKS Professional.</p></div>
+      </div>
+      <div class="cert">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div>
+        <div><h3>Automation, PLC &amp; Classic Control</h3><p>HA Consulting Group.</p></div>
+      </div>
+      <div class="cert">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div><h3>Embedded Systems Nanodegree</h3><p>Professional track.</p></div>
+      </div>
+      <div class="cert">
+        <div class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-2 4 4 8-8 4 4M3 13v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6"/></svg></div>
+        <div><h3>Al-Mansour Automotive Internship</h3><p>One-month summer internship — Chevrolet service department.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="block" id="contact">
+  <div class="wrap contact">
+    <div>
+      <span class="eyebrow">07 — Contact</span>
+      <h2>Let's build <em>something that moves.</em></h2>
+      <p class="lead">Open to roles and collaborations in robotics, autonomous systems, and mechanical design. Email is the fastest way to reach me.</p>
+    </div>
+    <div class="contact-rows">
+      <a href="mailto:kareem.salahazazy10@gmail.com">
+        <span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+        <div><div class="c-k">Email</div><div class="c-v">kareem.salahazazy10@gmail.com</div></div>
+        <span class="arr">↗</span>
+      </a>
+      <a href="tel:+201032641315">
+        <span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+        <div><div class="c-k">Phone</div><div class="c-v">+20 103 264 1315</div></div>
+        <span class="arr">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/kareem-salah-933435221/" target="_blank" rel="noopener">
+        <span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
+        <div><div class="c-k">LinkedIn</div><div class="c-v">/in/kareem-salah</div></div>
+        <span class="arr">↗</span>
+      </a>
+      <a href="https://github.com/kareem0o0" target="_blank" rel="noopener">
+        <span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6 0C6.7 1.6 5.6 1.9 5.6 1.9a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 8.3c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V22"/></svg></span>
+        <div><div class="c-k">GitHub</div><div class="c-v">github.com/kareem0o0</div></div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-name serif">Kareem Salah</div>
+    <div class="f-meta">Robotics &amp; Mechatronics Engineer · Cairo, Egypt · © 2026</div>
+  </div>
+</footer>
+
+<!-- ===================== MODAL ===================== -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="m-media">
+      <span class="ico" id="mIcon"></span>
+      <span class="ph">Add project image / render</span>
+      <button class="m-close" id="mClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="m-content" id="mContent"></div>
+  </div>
+</div>
+
+<script>
+/* ====================================================================
+   ICONS
+   ==================================================================== */
+const ICON = {
+  robot:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 8V5M12 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/><circle cx="9" cy="13" r="1.2"/><circle cx="15" cy="13" r="1.2"/><path d="M9 16.5h6M2 12v3M22 12v3"/></svg>',
+  car:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-5a2 2 0 0 1 2-1.3h10a2 2 0 0 1 2 1.3l2 5v4a1 1 0 0 1-1 1h-1a2 2 0 0 1-4 0H8a2 2 0 0 1-4 0H3a1 1 0 0 1-1-1z"/><path d="M5 13h14"/><circle cx="7" cy="17.5" r="1"/><circle cx="17" cy="17.5" r="1"/></svg>',
+  hands:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="5" height="8" rx="1"/><rect x="16" y="11" width="5" height="8" rx="1"/><path d="M4 11V8M6 11V7M16 11V7M18 11V8"/><circle cx="12" cy="7" r="3"/><path d="M10.5 7a1.5 1 0 0 0 3 0"/></svg>',
+  chip:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><rect x="10" y="10" width="4" height="4"/></svg>',
+  motor:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="13" height="8" rx="1"/><path d="M16 10h3l2 2-2 2h-3M3 12H1M6 8V6M12 8V6"/><circle cx="9.5" cy="12" r="2"/></svg>',
+  suspension:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 15l3-6 6 0 3 6M9 9l-2-4M15 9l2-4"/><path d="M4 7l2 2M20 7l-2 2"/></svg>',
+  bolt:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 11 14 11 22 21 10 13 10 13 2"/></svg>',
+  plant:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l6-3v3l6-3v4l6-2v14z"/><path d="M7 21v-4M13 21v-4M19 21v-4"/></svg>',
+  hydrogen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 7 6 10 6 14a6 6 0 0 0 12 0c0-4-2-7-6-12z"/><path d="M9 14h6"/></svg>'
+};
+const phIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>';
+
+/* ====================================================================
+   TRACK CONTENT (hero / about / skills / experience)
+   ==================================================================== */
+const CONTENT = {
+  robotics: {
+    role: 'Robotics Engineer',
+    eyebrow: 'Robotics Engineer · Cairo, Egypt',
+    title: 'Building <em>autonomous systems</em> that perceive, plan & move.',
+    sub: 'Robotics software engineer building ROS-based navigation stacks, perception pipelines, and control systems — backed by a strong mechanical-design foundation.',
+    meta: ['ROS / ROS2 · C++ / Python', 'SLAM · Motion Planning', 'Open to opportunities'],
+    stats: [['1st','Int\'l — ASME XRC robot'],['7','Grad-project team led'],['4+','Autonomous platforms'],['ROS2','Navigation stacks']],
+    aboutNote: 'Software-first robotics, grounded in real mechanical hardware.',
+    aboutLead: 'I build <em>autonomous robots end to end</em> — from perception and SLAM to planning and control — and I understand the hardware underneath because I design it too.',
+    aboutText: [
+      'I\u2019ve built full autonomous navigation stacks in ROS covering perception, planning, and control, validated in CoppeliaSim and Gazebo before deploying to real multi-sensor platforms with LiDAR, IMU, camera, and odometry fusion.',
+      'My competition robotics record includes 1st and 2nd internationally at ASME XRC, plus national wins in puck-collection and sumo. Alongside the software, my SOLIDWORKS (CSWP) background lets me work fluidly across the full mechatronic stack.'
+    ],
+    skillsNote: 'Autonomy software, perception, embedded systems, and the CAD to back it.',
+    skills: [
+      { icon:'robot', title:'Robotics & Software', tags:['ROS / ROS2','C++','Python','SLAM','Localization','Motion Planning'] },
+      { icon:'car', title:'Control Systems', tags:['PID','Pure Pursuit','Path Tracking','Trajectory Following','Real-time'] },
+      { icon:'hands', title:'Perception', tags:['OpenCV','YOLOv8','PyTorch','Sensor Fusion','LiDAR','IMU + Camera'] },
+      { icon:'chip', title:'Embedded & Systems', tags:['ESP','AVR','STM32','PLC','OTA Firmware','Real-time Systems'] },
+      { icon:'bolt', title:'Simulation & Tools', tags:['Gazebo','CoppeliaSim','RViz','MoveIt'] },
+      { icon:'motor', title:'Mechanical & CAD', tags:['SOLIDWORKS (CSWP)','Autodesk Inventor','DFM & DFA','Vehicle Design'] }
+    ],
+    expNote: 'Autonomous vehicles, AMRs, R&D robotics, and design automation.',
+    experience: [
+      { when:'01/2026 — Present', role:'Design Automation Engineer — SOLIDWORKS API / C#', org:'Birr Machines', points:[
+        'Co-initiated a <b>SOLIDWORKS API automation system in C#</b> that auto-generates motor parts, assemblies, and drawings, with integrated PDM version control.',
+        'Created and maintained 3D CAD models, assemblies, and detailed manufacturing drawings.'
+      ]},
+      { when:'09/2025 — 12/2025', role:'Robotics R&D Engineer', org:'Takamul Education', points:[
+        'Developed modular robotics control systems with <b>voice command, OTA firmware updates</b>, and multi-device interfaces.',
+        'Designed and prototyped educational robotic platforms with real-time sensor interaction and feedback.',
+        'Reverse-engineered existing kits to improve reliability and performance.'
+      ]},
+      { when:'08/2024 — 12/2024', role:'AMR Robotics Engineer', org:'Riyadh Dynamics', points:[
+        'Developed and deployed a full <b>AMR navigation stack in ROS</b> — localization, path planning, and motion control — with integrated PLC-based control.'
+      ]},
+      { when:'01/2025 — 09/2025', role:'Mechanical Design & Manufacturing Engineer', org:'NISBAU Egypt', points:[
+        'Designed and adapted German concrete-plant structures for local manufacture and site-specific assembly.',
+        'Conducted R&D on new plant configurations to improve efficiency and structural sustainability.'
+      ]},
+      { when:'02/2022 — 05/2025', role:'Co-Founder — Hydrogen Generator System', org:'Grenium Startup', points:[
+        'Designed the <b>control system for an HHO electrolyzer</b> on STM32, integrating pressure, temperature, current, and gas-concentration sensors with safety valves.',
+        'Developed monitoring and protection logic to regulate performance and handle real-time faults.'
+      ]},
+      { when:'05/2023 — 05/2024', role:'Section President', org:'ASME — Assiut Student Section', points:[
+        'Led a team of <b>80+ members</b>, organizing technical events, workshops, and competition participation.',
+        'Managed teams in international robotics competitions, earning multiple rankings.'
+      ]}
+    ]
+  },
+
+  mech: {
+    role: 'Mechanical Design Engineer',
+    eyebrow: 'Mechanical & Mechatronics Engineer · Cairo, Egypt',
+    title: 'Designing <em>rotating machines & vehicles</em> from concept to manufacture.',
+    sub: 'Mechanical design engineer specializing in rotating machines, design-for-manufacture, and design automation — from 20 kW motors to 30 MW generators, plus competition vehicle systems.',
+    meta: ['SOLIDWORKS (CSWP)','DFM & DFA · Rotating Machines','Open to opportunities'],
+    stats: [['30MW','Largest machine designed'],['API','C# design automation'],['CSWP','SOLIDWORKS Champion'],['2×','EVER Egypt vehicles']],
+    aboutNote: 'Rotating machines, vehicle systems, and automating the design pipeline.',
+    aboutLead: 'I design <em>custom rotating machines and vehicle systems</em> — and I automate the CAD pipeline behind them so design-to-documentation is fast and repeatable.',
+    aboutText: [
+      'At Birr Machines I design custom motors and generators from 20 kW to 30 MW in SOLIDWORKS, and I co-built a SOLIDWORKS API automation system in C# that auto-generates parts, assemblies, drawings, PDFs, and BOMs through an integrated PDM pipeline.',
+      'My vehicle background runs deep: suspension head and mechanical advisor across two EVER Egypt electric vehicles, Shell Eco-Marathon team leader, and ASME HPVC suspension lead — all built on SOLIDWORKS design, assembly, and kinematics simulation.'
+    ],
+    skillsNote: 'CAD, design-for-manufacture, rotating machines, and automation.',
+    skills: [
+      { icon:'motor', title:'Rotating Machines', tags:['Custom Motors','Generators','20 kW – 30 MW','Manufacturing Drawings','System Integration'] },
+      { icon:'chip', title:'Design Automation', tags:['SOLIDWORKS API','C#','PDM','Parametric Models','Auto BOM / PDF'] },
+      { icon:'bolt', title:'CAD & Modelling', tags:['SOLIDWORKS (CSWP)','Autodesk Inventor','3D Assemblies','Detailing'] },
+      { icon:'suspension', title:'Vehicle Systems', tags:['Suspension Design','Double Wishbones','Kinematics Simulation','Vehicle Design'] },
+      { icon:'plant', title:'Manufacturing', tags:['DFM & DFA','Concrete Plants','Structural Design','R&D'] },
+      { icon:'hands', title:'Leadership', tags:['Team Leadership','Mechanical Advisor','Competition Management','Control'] }
+    ],
+    expNote: 'Rotating-machine design, design automation, and structural engineering.',
+    experience: [
+      { when:'04/2026 — Present', role:'Design Automation Engineer — SOLIDWORKS API / C#', org:'Birr Machines', points:[
+        'Co-initiated a <b>SOLIDWORKS API automation system in C#</b> to auto-generate motor parts, assemblies, and drawings.',
+        'Integrated <b>PDM</b> for version control and automated deliverables including PDFs and BOMs.',
+        'Reduced manual design-iteration time by scripting parametric model generation across the full design-to-documentation pipeline.'
+      ]},
+      { when:'01/2025 — 04/2026', role:'Mechanical Design Engineer — Rotating Machines', org:'Birr Machines', points:[
+        'Designed custom motors and generators from <b>20 kW to 30 MW</b> in SOLIDWORKS.',
+        'Created and updated 3D CAD models, assemblies, and detailed manufacturing drawings.',
+        'Collaborated with electrical and manufacturing teams to align mechanical design with system requirements.'
+      ]},
+      { when:'01/2025 — 09/2025', role:'Mechanical Design & Manufacturing Engineer', org:'NISBAU Egypt', points:[
+        'Designed and redesigned German concrete-plant structures for manufacture and assembly based on location and needs.',
+        'Conducted R&D on new plants to enhance efficiency and sustainability.'
+      ]},
+      { when:'04/2022 — 09/2025', role:'Suspension Head / Mechanical Advisor', org:'EVER Egypt — Dynamic Track', points:[
+        'Built two full single-seat <b>electric urban vehicles</b> — once as suspension head, once as mechanical advisor across all systems.',
+        'Used <b>SOLIDWORKS</b> for design, assembly, and kinematics simulation, optimizing suspension kinematics.'
+      ]},
+      { when:'01/2023 — 05/2023', role:'Racing Team Leader', org:'Shell Eco-Marathon', points:[
+        'Led a multidisciplinary team designing and optimizing an ultra-efficient electric vehicle.',
+        'Directed aerodynamics, weight reduction, and powertrain efficiency to meet competition standards.'
+      ]},
+      { when:'01/2022 — 05/2022', role:'Suspension Lead', org:'ASME HPVC', points:[
+        'Led design, manufacturing, and testing of the suspension for a hybrid human/electric vehicle.',
+        'Implemented <b>double wishbones and direct-damper mechanisms</b>, improving handling and performance.'
+      ]}
+    ]
+  }
+};
+
+/* ====================================================================
+   PROJECTS — tagged by track ('robotics','mech','both')
+   ==================================================================== */
+const PROJECTS = [
+  {
+    id:'auto-vehicle', tracks:['robotics'], icon:'car', tag:'Robotics',
+    cat:'Autonomous Vehicle · ROS',
+    title:'EVER Egypt — Autonomous Vehicle',
+    date:'2024 — 2025', duration:'Autonomous SW Engineer', location:'EVER Egypt',
+    short:'A full autonomous navigation stack in ROS — perception, planning, and control — for a self-driving vehicle, validated in simulation before real-world deployment.',
+    stack:['ROS','C++','Python','LiDAR','IMU','Camera','Odometry','Pure Pursuit','PID','OpenCV','CoppeliaSim'],
+    description:'A complete self-driving software stack built on ROS, spanning perception, planning, and control. The system fuses LiDAR, IMU, camera, and odometry for robust localization, and was fully validated in CoppeliaSim before deploying to the real vehicle.',
+    responsibilities:[
+      'Built a full <b>ROS navigation stack</b> across perception, planning, and control layers.',
+      'Implemented <b>Pure Pursuit + PID</b> path tracking for reliable trajectory following.',
+      'Integrated and fused <b>LiDAR, IMU, camera, and odometry</b> for robust localization.',
+      'Built an <b>OpenCV vision pipeline</b> for real-time detection of vehicles, cones, and pedestrians.'
+    ],
+    challenge:'Achieving reliable localization and real-time perception while integrating sensing, computation, and actuation under track constraints.',
+    solution:'Multi-sensor fusion with filtering for localization, plus a simulation-first workflow in CoppeliaSim to de-risk before hardware deployment.'
+  },
+  {
+    id:'sign-language', tracks:['robotics','both'], icon:'hands', tag:'Robotics',
+    cat:'Graduation Project · Dual-Arm Robotics',
+    title:'Bimanual Sign-Language Communication System',
+    date:'2023 — 2024', duration:'Graduation Project · led 7', location:'Assiut University',
+    short:'A dual-arm robotic system that converts voice to sign-language gestures and reads gestures back to speech — bidirectional human-robot communication.',
+    stack:['ROS','MoveIt','Gazebo','RViz','YOLOv8','PyTorch','Voice Recognition','Text-to-Speech','Inverse Kinematics'],
+    description:'A bidirectional assistive communication system built on a dual-arm robot. It uses ROS and MoveIt for inverse kinematics and motion planning, YOLOv8 for real-time gesture recognition, and integrated voice + text-to-speech for two-way communication between signing and non-signing users.',
+    responsibilities:[
+      'Developed a <b>dual-arm robotic system</b> using ROS and MoveIt for IK and motion planning.',
+      'Built the simulation/validation workflow in <b>Gazebo and RViz</b> before hardware deployment.',
+      'Trained and deployed <b>YOLOv8 (PyTorch)</b> models for real-time gesture recognition.',
+      'Integrated <b>voice recognition + text-to-speech</b> for bidirectional communication.',
+      'Led a <b>7-member cross-functional team</b> through design, implementation, and integration.'
+    ],
+    challenge:'Coordinating two arms for legible signing while running real-time gesture recognition and keeping the full pipeline integrated.',
+    solution:'MoveIt-based planning per arm with a shared gesture library, a simulation-first workflow, and YOLOv8 tuned for live-feed recognition.'
+  },
+  {
+    id:'xrc-robots', tracks:['robotics'], icon:'robot', tag:'Robotics',
+    cat:'Competition · Autonomous Robots',
+    title:'ASME XRC — Autonomous Wheeled Robots',
+    date:'2022 — 2024', duration:'Competitive systems', location:'ASME XRC',
+    short:'Designed and programmed multiple autonomous robots — sumo, maze-solving, and puck-collection — earning 1st and 2nd internationally.',
+    stack:['Embedded Control','Sensor Feedback','Navigation Algorithms','Real-time Systems','C++'],
+    description:'A family of competition robots built for ASME XRC, including sumo-combat, maze-solving, and puck-collection platforms. Each integrated embedded control logic, sensor feedback loops, and navigation algorithms tuned for real-time competition performance.',
+    responsibilities:[
+      'Designed and programmed <b>sumo, maze-solving, and puck-collection</b> robots.',
+      'Implemented <b>embedded control logic and sensor feedback loops</b> per platform.',
+      'Optimized real-time performance under strict competition constraints.'
+    ],
+    challenge:'Squeezing reliable autonomy and fast reactions out of constrained embedded hardware in unpredictable competition environments.',
+    solution:'Tight sensor-feedback loops and platform-specific navigation tuning — yielding 1st (ocean cleanup) and 2nd (lunar lander) internationally.'
+  },
+  {
+    id:'esp-iot', tracks:['robotics'], icon:'chip', tag:'Embedded',
+    cat:'R&D · Embedded Firmware',
+    title:'ESP IoT Firmware — Robotics Comms',
+    date:'R&D', duration:'Personal / R&D', location:'Personal project',
+    short:'Firmware for ESP-based IoT nodes enabling wireless robot control and telemetry, with OTA updates and remote command interfaces.',
+    stack:['ESP','OTA Updates','Wireless Telemetry','Embedded C','Multi-device'],
+    description:'A firmware platform for ESP-based IoT nodes used in wireless robot control and telemetry. Includes over-the-air update support and remote command interfaces for flexible multi-device deployment.',
+    responsibilities:[
+      'Developed firmware for <b>ESP-based IoT nodes</b> for wireless robot control and telemetry.',
+      'Built <b>OTA update</b> and remote command interfaces enabling multi-device deployment.'
+    ],
+    challenge:'Keeping wireless control reliable and devices updatable in the field without physical access.',
+    solution:'OTA firmware pipeline plus a remote command interface for flexible, multi-device fleet management.'
+  },
+  {
+    id:'motor-automation', tracks:['mech','both'], icon:'motor', tag:'Mechanical',
+    cat:'Design Automation · Rotating Machines',
+    title:'SOLIDWORKS API Motor-Design Automation',
+    date:'2026 — Present', duration:'Ongoing at Birr Machines', location:'Birr Machines',
+    short:'A SOLIDWORKS API system in C# that auto-generates motor parts, assemblies, drawings, PDFs, and BOMs through an integrated PDM pipeline.',
+    stack:['SOLIDWORKS API','C#','PDM','Parametric Modelling','Automated BOM','Automated PDF'],
+    description:'A design-automation system that scripts the entire motor design-to-documentation pipeline. Parametric model generation in C# via the SOLIDWORKS API produces parts, assemblies, and drawings, while integrated PDM handles version control and automated deliverables — sharply reducing manual iteration time.',
+    responsibilities:[
+      'Co-initiated and developed the <b>SOLIDWORKS API automation system in C#</b>.',
+      'Integrated <b>PDM</b> for version control and automated PDF/BOM deliverable generation.',
+      'Reduced manual design-iteration time via parametric model generation end to end.'
+    ],
+    challenge:'Manual motor design and documentation was slow and error-prone across many variants.',
+    solution:'Parametric, API-driven generation of the full deliverable set with PDM-backed version control.'
+  },
+  {
+    id:'rotating-machines', tracks:['mech'], icon:'motor', tag:'Mechanical',
+    cat:'Mechanical Design · Rotating Machines',
+    title:'Custom Motors & Generators (20 kW – 30 MW)',
+    date:'2025 — 2026', duration:'Mechanical Design Engineer', location:'Birr Machines',
+    short:'Designed custom rotating machines from 20 kW motors to 30 MW generators in SOLIDWORKS, with full CAD models and manufacturing drawings.',
+    stack:['SOLIDWORKS','3D CAD','Assemblies','Manufacturing Drawings','System Integration'],
+    description:'End-to-end mechanical design of custom rotating machines spanning a wide power range — from 20 kW motors to 30 MW generators. Work included 3D CAD modelling, assemblies, and detailed manufacturing drawings, in close collaboration with electrical and manufacturing teams.',
+    responsibilities:[
+      'Designed <b>custom motors and generators from 20 kW to 30 MW</b> in SOLIDWORKS.',
+      'Created and updated 3D CAD models, assemblies, and detailed manufacturing drawings.',
+      'Collaborated with <b>electrical and manufacturing teams</b> to align mechanical design with system requirements.'
+    ],
+    challenge:'Designing reliable machines across a huge power range while keeping designs manufacturable.',
+    solution:'Disciplined CAD modelling and detailing with cross-team review to align mechanical, electrical, and manufacturing requirements.'
+  },
+  {
+    id:'ever-suspension', tracks:['mech','both'], icon:'suspension', tag:'Mechanical',
+    cat:'Vehicle · Suspension Design',
+    title:'EVER Egypt — Electric Vehicle Suspension',
+    date:'2022 — 2025', duration:'Suspension head / advisor', location:'EVER Egypt',
+    short:'Designed, manufactured, and tested the suspension for two single-seat electric urban vehicles, optimizing kinematics in SOLIDWORKS.',
+    stack:['SOLIDWORKS','Suspension Design','Kinematics Simulation','Assembly','Vehicle Dynamics'],
+    description:'Suspension engineering across two single-seat electric urban vehicles built for EVER Egypt — serving first as suspension co-head, then as mechanical advisor across all systems. Design, assembly, and kinematics simulation were done in SOLIDWORKS to optimize handling.',
+    responsibilities:[
+      'Designed, manufactured, and tested the <b>suspension system</b> for full vehicles.',
+      'Used <b>SOLIDWORKS</b> for design, assembly, and kinematics simulation.',
+      'Served as <b>mechanical advisor</b> for systems integration, kinematics, and dynamics.'
+    ],
+    challenge:'Optimizing suspension kinematics for handling within tight competition packaging and weight limits.',
+    solution:'Iterative kinematics simulation in SOLIDWORKS to refine geometry before manufacture and testing.'
+  },
+  {
+    id:'shell-eco', tracks:['mech'], icon:'car', tag:'Mechanical',
+    cat:'Vehicle · Efficiency Racing',
+    title:'Shell Eco-Marathon — Efficient EV',
+    date:'2023', duration:'Team leader', location:'Shell Eco-Marathon',
+    short:'Led a multidisciplinary team building an ultra-efficient electric vehicle, directing aerodynamics, weight reduction, and powertrain efficiency.',
+    stack:['Team Leadership','Aerodynamics','Weight Reduction','Powertrain Efficiency','Vehicle Design'],
+    description:'Leadership of a multidisciplinary team designing and optimizing an ultra-efficient electric vehicle for the Shell Eco-Marathon — a global competition centered on energy efficiency. Directed system optimizations across aerodynamics, mass, and powertrain to meet stringent standards.',
+    responsibilities:[
+      'Led the team designing, building, and optimizing an <b>ultra-efficient electric vehicle</b>.',
+      'Directed <b>aerodynamics, weight reduction, and powertrain efficiency</b> optimizations.',
+      'Ensured compliance with stringent competition standards.'
+    ],
+    challenge:'Maximizing energy efficiency across many subsystems while meeting strict competition rules.',
+    solution:'Coordinated multidisciplinary optimization — aero, mass, and powertrain — under one technical direction.'
+  },
+  {
+    id:'hho', tracks:['mech','both'], icon:'hydrogen', tag:'Startup',
+    cat:'Startup · Hydrogen Generation',
+    title:'Grenium — HHO Hydrogen Generator',
+    date:'2022 — 2025', duration:'Co-founder', location:'Grenium Startup',
+    short:'Co-founded a startup building a sustainable HHO electrolyzer — designing the corrosion-resistant mechanical structure and the sensor-driven control system.',
+    stack:['SOLIDWORKS','Stainless Steel Electrodes','STM32','Sensors','Control System','Prototyping'],
+    description:'A startup pioneering a sustainable HHO electrolyzer for hydrogen generation, which took 1st place in entrepreneurship competitions. The mechanical design featured corrosion-resistant stainless-steel electrodes, an optimized cell-stack assembly, and a durable safety enclosure — paired with an STM32-based control system integrating pressure, temperature, current, and gas sensors.',
+    responsibilities:[
+      'Co-founded the startup; <b>1st place</b> in entrepreneurship competitions.',
+      'Designed the mechanical structure in SOLIDWORKS — <b>stainless electrodes, cell-stack assembly, safety enclosure</b>.',
+      'Built the <b>STM32 control system</b> with pressure, current, temperature, and gas sensors plus protection logic.'
+    ],
+    challenge:'Building a safe, efficient electrolyzer that handles corrosive conditions and real-time faults.',
+    solution:'Corrosion-resistant materials and a durable enclosure, plus STM32 monitoring/protection logic for safe operation.'
+  }
+];
+
+/* ====================================================================
+   RENDER
+   ==================================================================== */
+let currentTrack = 'robotics';
+
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+
+function renderTrack(track){
+  const c = CONTENT[track];
+
+  document.getElementById('heroEyebrow').textContent = c.eyebrow;
+  document.getElementById('heroTitle').innerHTML = c.title;
+  document.getElementById('heroSub').textContent = c.sub;
+  document.getElementById('glRole').textContent = c.role;
+
+  document.getElementById('heroMeta').innerHTML =
+    c.meta.map(m=>`<span><span class="dot"></span>${m}</span>`).join('');
+
+  document.getElementById('heroStats').innerHTML =
+    c.stats.map(s=>`<div class="cell"><div class="num serif">${s[0]}</div><div class="lbl">${s[1]}</div></div>`).join('');
+
+  document.getElementById('aboutNote').textContent = c.aboutNote;
+  document.getElementById('aboutLead').innerHTML = c.aboutLead;
+  document.getElementById('aboutText').innerHTML = c.aboutText.map(p=>`<p>${p}</p>`).join('');
+
+  document.getElementById('skillsNote').textContent = c.skillsNote;
+  document.getElementById('skillGroups').innerHTML = c.skills.map(s=>`
+    <div class="skill-card">
+      <div class="sc-ico">${ICON[s.icon]}</div>
+      <h3>${s.title}</h3>
+      <div class="tags">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+    </div>`).join('');
+
+  document.getElementById('expNote').textContent = c.expNote;
+  document.getElementById('timeline').innerHTML = c.experience.map(e=>`
+    <div class="tl-item">
+      <div class="tl-when">${e.when}</div>
+      <div class="tl-body">
+        <h3>${e.role}</h3>
+        <div class="org">${e.org}</div>
+        <ul>${e.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+    </div>`).join('');
+
+  renderProjects(track);
+}
+
+function renderProjects(track){
+  const grid = document.getElementById('projectsGrid');
+  grid.innerHTML = '';
+  const list = PROJECTS.filter(p => p.tracks.includes(track));
+  list.forEach((p,i)=>{
+    const card = el('article','project-card reveal');
+    card.style.transitionDelay = (i*0.05)+'s';
+    card.innerHTML = `
+      <div class="pc-media">
+        <span class="pc-cat">${p.tag}</span>
+        <span class="ico">${ICON[p.icon]}</span>
+        <span class="ph">image placeholder</span>
+      </div>
+      <div class="pc-body">
+        <span class="pc-date">${p.date} · ${p.location}</span>
+        <h3>${p.title}</h3>
+        <p>${p.short}</p>
+        <div class="pc-foot">
+          <div class="pc-stack">${p.stack.slice(0,2).map(t=>`<span>${t}</span>`).join('')}</div>
+          <span class="pc-open">View details →</span>
+        </div>
+      </div>`;
+    card.addEventListener('click', ()=>openModal(p.id));
+    grid.appendChild(card);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.add('in')));
+  });
+}
+
+/* ===== TRACK SWITCH ===== */
+function setTrack(track){
+  currentTrack = track;
+  document.body.classList.toggle('track-mech', track==='mech');
+  document.body.classList.toggle('track-robotics', track==='robotics');
+  document.getElementById('btnRobotics').classList.toggle('active', track==='robotics');
+  document.getElementById('btnMech').classList.toggle('active', track==='mech');
+  renderTrack(track);
+}
+
+/* ===== MODAL ===== */
+const overlay = document.getElementById('overlay');
+const mIcon = document.getElementById('mIcon');
+const mContent = document.getElementById('mContent');
+
+function openModal(id){
+  const p = PROJECTS.find(x=>x.id===id);
+  if(!p) return;
+  mIcon.innerHTML = ICON[p.icon];
+  mContent.innerHTML = `
+    <div class="m-cat">${p.cat}</div>
+    <h2 id="mTitle">${p.title}</h2>
+    <div class="m-metoline">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${p.date}</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${p.duration}</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.location}</span>
+    </div>
+    <div class="m-section"><h4>Overview</h4><p>${p.description}</p></div>
+    <div class="m-section"><h4>Technologies, tools &amp; skills</h4><div class="m-tags">${p.stack.map(t=>`<span>${t}</span>`).join('')}</div></div>
+    <div class="m-section"><h4>Key responsibilities &amp; achievements</h4><ul>${p.responsibilities.map(r=>`<li>${r}</li>`).join('')}</ul></div>
+    <div class="m-section"><h4>Challenge &amp; solution</h4>
+      <div class="m-cs">
+        <div class="box"><h5>Challenge</h5><p>${p.challenge}</p></div>
+        <div class="box"><h5>Solution</h5><p>${p.solution}</p></div>
+      </div>
+    </div>
+    <div class="m-section"><h4>Media &amp; documentation</h4>
+      <div class="m-ph-grid"><div class="slot">${phIcon}</div><div class="slot">${phIcon}</div><div class="slot">${phIcon}</div></div>
+    </div>
+    <div class="m-section"><h4>Links</h4>
+      <div class="m-links">
+        <a href="#" class="disabled" onclick="return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6 0C6.7 1.6 5.6 1.9 5.6 1.9a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 8.3c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V20"/></svg>GitHub — add link</a>
+        <a href="#" class="disabled" onclick="return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Report — add link</a>
+        <a href="#" class="disabled" onclick="return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Demo — add link</a>
+      </div>
+    </div>`;
+  overlay.classList.add('active');
+  document.body.style.overflow='hidden';
+  document.getElementById('mClose').focus();
+}
+function closeModal(){ overlay.classList.remove('active'); document.body.style.overflow=''; }
+document.getElementById('mClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ===== THEME ===== */
+const sun = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const moon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+document.getElementById('themeBtn').addEventListener('click', ()=>{
+  const dark = document.body.classList.toggle('dark');
+  document.getElementById('themeIcon').innerHTML = dark ? moon : sun;
+});
+
+/* ===== NAV SHADOW ===== */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', window.scrollY>16));
+
+/* ===== INIT ===== */
+renderTrack('robotics');
+</script>
+</body>
+</html>
