@@ -159,11 +159,18 @@
   .tl-when { font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--ink-faint); padding-top: 3px; }
   .tl-body h3 { font-size: 1.14rem; }
   .tl-body .org { color: var(--accent); font-weight: 500; font-size: .95rem; margin-top: 2px; transition: color .35s; }
+  .org-line { display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; color: var(--accent); text-decoration: none; }
+  .org-line:hover .org { text-decoration: underline; text-underline-offset: 3px; }
+  .org-line:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 10px; }
+  .org-logo { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 8px; background: #fff; object-fit: contain; padding: 5px; flex: 0 0 auto; }
   .tl-body ul { margin-top: 12px; list-style: none; display: flex; flex-direction: column; gap: 8px; }
   .tl-body li { position: relative; padding-left: 18px; color: var(--ink-soft); font-size: .93rem; }
   .tl-body li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); transition: background .35s; }
   .tl-body li b { color: var(--ink); font-weight: 600; }
-  @media (max-width: 680px) { .tl-item { grid-template-columns: 1fr; gap: 8px; } }
+  @media (max-width: 680px) {
+    .tl-item { grid-template-columns: 1fr; gap: 8px; }
+    .org-logo { width: 34px; height: 34px; }
+  }
 
   /* ---------------- projects ---------------- */
   .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -351,6 +358,7 @@
         <a href="#projects" class="btn primary">View projects
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
+        <a href="Resume/Kareem_Salah_Robotics_Engineer (2).pdf" class="btn outline" id="resumeBtn" target="_blank" rel="noopener">Resume</a>
         <a href="#contact" class="btn outline">Get in touch</a>
       </div>
     </div>
@@ -366,7 +374,7 @@
 <section class="block" id="about">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="eyebrow">01 — About</span><h2>Engineer across software &amp; hardware</h2></div>
+      <div><span class="eyebrow">01 — About</span><h2 id="aboutTitle">Engineer across software &amp; hardware</h2></div>
       <p class="note" id="aboutNote"></p>
     </div>
     <div class="about-grid">
@@ -470,6 +478,11 @@
       <a href="https://github.com/kareem0o0" target="_blank" rel="noopener">
         <span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6 0C6.7 1.6 5.6 1.9 5.6 1.9a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 8.3c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V22"/></svg></span>
         <div><div class="c-k">GitHub</div><div class="c-v">github.com/kareem0o0</div></div>
+        <span class="arr">↗</span>
+      </a>
+      <a href="Resume/Kareem_Salah_Robotics_Engineer (2).pdf" id="resumeContact" target="_blank" rel="noopener">
+        <span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></span>
+        <div><div class="c-k">Resume</div><div class="c-v" id="resumeContactLabel">Robotics engineer PDF</div></div>
         <span class="arr">↗</span>
       </a>
     </div>
@@ -603,6 +616,25 @@ const CERTIFICATES = [
   }
 ];
 
+const WORK_LOGOS = {
+  'Birr Machines': {
+    logo: 'Work Experience/BIRR machines.png',
+    url: 'https://www.birr-machines.com/en/'
+  },
+  'Takamul Education': {
+    logo: 'Work Experience/Takamul education.png',
+    url: 'https://takamuleducation.com/'
+  },
+  'NISBAU': {
+    logo: 'Work Experience/nisbau_logo.png',
+    url: 'https://nisbau.de/en/'
+  },
+  'Riyadh Dynamics': {
+    logo: 'Work Experience/Riyadh Dynamics.svg',
+    url: 'https://riyadhdynamics.com/'
+  }
+};
+
 /* ====================================================================
    TRACK CONTENT (hero / about / skills / experience)
    ==================================================================== */
@@ -614,6 +646,9 @@ const CONTENT = {
     sub: 'Robotics software engineer building ROS-based navigation stacks, perception pipelines, and control systems — backed by a strong mechanical-design foundation.',
     contactLead: 'Open to roles and collaborations in robotics, autonomous systems, and mechatronics. Email is the fastest way to reach me.',
     meta: ['ROS / ROS2 · C++ / Python', 'SLAM · Motion Planning', 'Open to opportunities'],
+    resume: 'Resume/Kareem_Salah_Robotics_Engineer (2).pdf',
+    resumeLabel: 'Robotics engineer PDF',
+    aboutTitle: 'Engineer across software & hardware',
     aboutNote: 'Software-first robotics, grounded in real mechanical hardware.',
     aboutLead: 'I build <em>autonomous robots end to end</em> — from perception and SLAM to planning and control — and I understand the hardware underneath because I design it too.',
     aboutText: [
@@ -640,11 +675,11 @@ const CONTENT = {
         'Designed and prototyped educational robotic platforms with real-time sensor interaction and feedback.',
         'Reverse-engineered existing kits to improve reliability and performance.'
       ]},
-      { when:'01/2025 — 09/2025', role:'Mechanical Design & Manufacturing Engineer', org:'NISBAU Egypt', points:[
+      { when:'01/2025 — 09/2025', role:'Mechanical Design & Manufacturing Engineer', org:'NISBAU', points:[
         'Designed and adapted German concrete-plant structures for local manufacture and site-specific assembly.',
         'Conducted R&D on new plant configurations to improve efficiency and structural sustainability.'
       ]},
-      { when:'08/2024 — 12/2024', role:'AMR Robotics Engineer', org:'Riyadh Dynamics', points:[
+      { when:'08/2024 — 09/2024', role:'AMR Robotics Engineer', org:'Riyadh Dynamics', points:[
         'Developed and deployed a full <b>AMR navigation stack in ROS</b> — localization, path planning, and motion control — with integrated PLC-based control.'
       ]}
     ]
@@ -654,16 +689,19 @@ const CONTENT = {
     role: 'Mechanical Design Engineer',
     eyebrow: 'Mechanical & Mechatronics Engineer · Cairo, Egypt',
     title: 'Mechanics, made tangible.',
-    sub: 'Mechanical design engineer specializing in rotating machines, design-for-manufacture, and design automation — from 20 kW motors to 30 MW generators, plus competition vehicle systems.',
+    sub: 'Mechanical design engineer focused on product development, CAD automation, design-for-manufacture, and vehicle systems.',
     contactLead: 'Open to roles and collaborations in mechanical design, product development, CAD automation, and vehicle systems. Email is the fastest way to reach me.',
     meta: ['SOLIDWORKS (CSWP)','DFM & DFA · Rotating Machines','Open to opportunities'],
+    resume: 'Resume/kareem_salah_mechanical (1).pdf',
+    resumeLabel: 'Mechanical engineer PDF',
+    aboutTitle: 'Mechanical ideas, engineered for manufacture.',
     aboutNote: 'Vehicle systems, product design, and automating the design pipeline.',
-    aboutLead: 'I design <em>mechanical systems and product concepts</em> — and I automate the CAD pipeline behind them so design-to-documentation is fast and repeatable.',
+    aboutLead: 'I design <em>mechanical systems, assemblies, and product concepts</em> from early ideas through manufacturable CAD.',
     aboutText: [
-      'At Birr Machines I am part of the engineering team designing custom motors and generators from 20 kW to 30 MW in SOLIDWORKS, and I co-built a SOLIDWORKS API automation system in C# that auto-generates parts, assemblies, drawings, PDFs, and BOMs through an integrated PDM pipeline.',
-      'My vehicle background runs deep: suspension head and mechanical advisor across two EVER Egypt electric vehicles, Shell Eco-Marathon team leader, and ASME HPVC suspension lead — all built on SOLIDWORKS design, assembly, and kinematics simulation.'
+      'My work spans machine design, product development, DFM, assemblies, drawings, and CAD pipeline automation in SOLIDWORKS and C#.',
+      'I also bring hands-on vehicle systems experience from EV, Shell Eco-Marathon, and ASME HPVC projects, with rotating machines as one strong part of a broader mechanical engineering background.'
     ],
-    skillsNote: 'CAD, design-for-manufacture, rotating machines, and automation.',
+    skillsNote: 'CAD, product development, design-for-manufacture, vehicle systems, and automation.',
     skills: [
       { icon:'bolt', title:'CAD & Modelling', tags:['SOLIDWORKS Champion (CSWP)','Autodesk Inventor','Product Design','Simulation','Assemblies','Detailing','DFM & DFA','R&D'] },
       { icon:'chip', title:'Design Automation', tags:['SOLIDWORKS API','C#','PDM','Parametric Models','Auto BOM / PDF'] },
@@ -681,7 +719,7 @@ const CONTENT = {
         'Created and updated 3D CAD models, assemblies, and detailed manufacturing drawings.',
         'Collaborated with electrical and manufacturing teams to align mechanical design with system requirements.'
       ]},
-      { when:'01/2025 — 09/2025', role:'Mechanical Design & Manufacturing Engineer', org:'NISBAU Egypt', points:[
+      { when:'01/2025 — 09/2025', role:'Mechanical Design & Manufacturing Engineer', org:'NISBAU', points:[
         'Designed and redesigned German concrete-plant structures for manufacture and assembly based on location and needs.',
         'Conducted R&D on new plants to enhance efficiency and sustainability.'
       ]}
@@ -1033,10 +1071,16 @@ function renderTrack(track){
   document.getElementById('heroSub').textContent = c.sub;
   document.getElementById('contactLead').textContent = c.contactLead;
   document.getElementById('glRole').textContent = c.role;
+  document.getElementById('resumeBtn').href = c.resume;
+  document.getElementById('resumeBtn').setAttribute('download', c.resume.split('/').pop());
+  document.getElementById('resumeContact').href = c.resume;
+  document.getElementById('resumeContact').setAttribute('download', c.resume.split('/').pop());
+  document.getElementById('resumeContactLabel').textContent = c.resumeLabel;
 
   document.getElementById('heroMeta').innerHTML =
     c.meta.map(m=>`<span><span class="dot"></span>${m}</span>`).join('');
 
+  document.getElementById('aboutTitle').textContent = c.aboutTitle;
   document.getElementById('aboutNote').textContent = c.aboutNote;
   document.getElementById('aboutLead').innerHTML = c.aboutLead;
   document.getElementById('aboutText').innerHTML = c.aboutText.map(p=>`<p>${p}</p>`).join('');
@@ -1055,7 +1099,10 @@ function renderTrack(track){
       <div class="tl-when">${e.when}</div>
       <div class="tl-body">
         <h3>${e.role}</h3>
-        <div class="org">${e.org}</div>
+        <a class="org-line" href="${WORK_LOGOS[e.org]?.url || '#'}" target="_blank" rel="noopener noreferrer" aria-label="Visit ${e.org} website">
+          ${WORK_LOGOS[e.org]?.logo ? `<img class="org-logo" src="${WORK_LOGOS[e.org].logo}" alt="${e.org} logo" loading="lazy">` : ''}
+          <div class="org">${e.org}</div>
+        </a>
         <ul>${e.points.map(p=>`<li>${p}</li>`).join('')}</ul>
       </div>
     </div>`).join('');
